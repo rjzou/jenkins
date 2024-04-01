@@ -1,0 +1,20 @@
+# docker-compose.yml的文件内容
+version: "3"
+services:
+  jenkins:
+    image: jenkins/jenkins:lts-jdk17
+    user: "0:0"
+    container_name: jenkins-master
+    ports:
+      - "8090:8080"
+      - "50000:50000"
+    environment:
+     - PATH=/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/maven/bin
+    volumes:
+      - ./jenkins-data:/var/jenkins_home:rw
+      - ./var/run/docker.sock:/var/run/docker.sock:rw
+      - /home/rjzou/docker/jenkins/soft/maven:/usr/local/maven:ro
+      - /home/rjzou/.m2:/var/jenkins_home/.m2:rw
+    restart: always
+    networks:
+      - default
